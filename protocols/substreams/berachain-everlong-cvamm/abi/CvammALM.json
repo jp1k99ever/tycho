@@ -1,0 +1,118 @@
+[
+  {
+    "type": "event",
+    "name": "Initialized",
+    "inputs": [
+      { "name": "token0", "type": "address", "indexed": true, "internalType": "address" },
+      { "name": "token1", "type": "address", "indexed": true, "internalType": "address" },
+      { "name": "anchorPoolX96", "type": "uint160", "indexed": false, "internalType": "uint160" }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "Swap",
+    "inputs": [
+      { "name": "sender", "type": "address", "indexed": true, "internalType": "address" },
+      { "name": "recipient", "type": "address", "indexed": true, "internalType": "address" },
+      { "name": "amount0", "type": "int256", "indexed": false, "internalType": "int256" },
+      { "name": "amount1", "type": "int256", "indexed": false, "internalType": "int256" },
+      { "name": "sqrtPriceX96", "type": "uint160", "indexed": false, "internalType": "uint160" },
+      { "name": "liquidity", "type": "uint128", "indexed": false, "internalType": "uint128" },
+      { "name": "tick", "type": "int24", "indexed": false, "internalType": "int24" }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "SwapFeeCharged",
+    "inputs": [
+      { "name": "sender", "type": "address", "indexed": true, "internalType": "address" },
+      { "name": "fee0", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "fee1", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "feeWad", "type": "uint256", "indexed": false, "internalType": "uint256" }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "Sync",
+    "inputs": [
+      { "name": "reserve0", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "reserve1", "type": "uint256", "indexed": false, "internalType": "uint256" }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "Recentered",
+    "inputs": [
+      { "name": "anchorBefore", "type": "uint160", "indexed": false, "internalType": "uint160" },
+      { "name": "anchorAfter", "type": "uint160", "indexed": false, "internalType": "uint160" },
+      { "name": "kappaAfter", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "xAfter", "type": "uint256", "indexed": false, "internalType": "uint256" }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "CurveRetuned",
+    "inputs": [
+      { "name": "concentrationWad", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "spanUpWad", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "spanDnWad", "type": "uint256", "indexed": false, "internalType": "uint256" }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "IdleDeployed",
+    "inputs": [
+      { "name": "stableAdded", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "volatileAdded", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "kappaAfter", "type": "uint256", "indexed": false, "internalType": "uint256" }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "FeesCompounded",
+    "inputs": [
+      { "name": "addStable", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "addVolatile", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "newKappa", "type": "uint256", "indexed": false, "internalType": "uint256" }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "ReservesRetracted",
+    "inputs": [
+      { "name": "stable", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "volatileAmount", "type": "uint256", "indexed": false, "internalType": "uint256" }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "PauseSet",
+    "inputs": [
+      { "name": "paused", "type": "bool", "indexed": false, "internalType": "bool" },
+      { "name": "by", "type": "address", "indexed": true, "internalType": "address" }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "StateSync",
+    "inputs": [
+      { "name": "xWad", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "kappa", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "reserveStable", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "reserveVolatile", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "feeStableInWad", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "feeVolatileInWad", "type": "uint256", "indexed": false, "internalType": "uint256" }
+    ],
+    "anonymous": false
+  }
+]

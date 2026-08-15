@@ -1,0 +1,58 @@
+specVersion: v0.1.0
+package:
+  name: "berachain_everlong_cvamm"
+  version: v0.1.0
+  description: "Everlong CVAMM (CvammALM single-LP closed-form curve) indexing on Berachain"
+
+protobuf:
+  files:
+    - tycho/evm/v1/common.proto
+    - tycho/evm/v1/utils.proto
+  importPaths:
+    - ../../../proto/
+
+binaries:
+  default:
+    type: wasm/rust-v1
+    file: ../target/wasm32-unknown-unknown/release/berachain_everlong_cvamm.wasm
+
+modules:
+  # CvammALM proxy deployed at block 24689006 (tx 0x7e5b4aac17255d00576ce25918591ac60339677e6e3034a9dfa00371a8b27c90).
+  - name: map_protocol_components
+    kind: map
+    initialBlock: 24689006
+    inputs:
+      - params: string
+      - source: sf.ethereum.type.v2.Block
+    output:
+      type: proto:tycho.evm.v1.BlockTransactionProtocolComponents
+
+  - name: store_protocol_components
+    kind: store
+    initialBlock: 24689006
+    updatePolicy: set_if_not_exists
+    valueType: proto:tycho.evm.v1.ProtocolComponent
+    inputs:
+      - map: map_protocol_components
+
+  - name: map_protocol_changes
+    kind: map
+    initialBlock: 24689006
+    inputs:
+      - params: string
+      - source: sf.ethereum.type.v2.Block
+      - map: map_protocol_components
+      - store: store_protocol_components
+    output:
+      type: proto:tycho.evm.v1.BlockChanges
+
+# Configurable contract constants live here: ALM/tokens per deployment, plus the
+# initialize-time curve/fee constants that base blocks cannot observe (corrected by
+# CurveRetuned/StateSync events once witnessed). `bootstrap_block` claims the
+# component without the creation log when replaying from after the deployment.
+params:
+  map_protocol_components: "alm=0xF5124F5605ce1e91A7429B837b7daC8f9E5378dd&stable=0x1cE0a25D13CE4d52071aE7e02Cf1F6606F4C79d3&volatile=0x0555E30da8f98308EdB960aa94C0Db47230d2B9c&a_wad=34000000000000000000&span_up_wad=4000000000000000000&span_dn_wad=6000000000000000000&initial_fee_wad=5000000000000000"
+  map_protocol_changes: "alm=0xF5124F5605ce1e91A7429B837b7daC8f9E5378dd&stable=0x1cE0a25D13CE4d52071aE7e02Cf1F6606F4C79d3&volatile=0x0555E30da8f98308EdB960aa94C0Db47230d2B9c&a_wad=34000000000000000000&span_up_wad=4000000000000000000&span_dn_wad=6000000000000000000&initial_fee_wad=5000000000000000"
+
+# Custom chain — the self-hosted Firehose advertises it via CHAIN_NAME=berachain.
+network: berachain
