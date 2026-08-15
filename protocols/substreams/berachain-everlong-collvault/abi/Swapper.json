@@ -1,0 +1,15 @@
+[
+  {
+    "type": "event",
+    "name": "Swap",
+    "inputs": [
+      { "name": "sender", "type": "address", "indexed": true, "internalType": "address" },
+      { "name": "receiver", "type": "address", "indexed": true, "internalType": "address" },
+      { "name": "tokenIn", "type": "address", "indexed": false, "internalType": "address" },
+      { "name": "tokenOut", "type": "address", "indexed": false, "internalType": "address" },
+      { "name": "amountIn", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "amountOut", "type": "uint256", "indexed": false, "internalType": "uint256" }
+    ],
+    "anonymous": false
+  }
+]

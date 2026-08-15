@@ -1,0 +1,24 @@
+substreams_yaml_path: ./berachain-everlong-collvault.yaml
+# Native integration — no VM adapter contract; simulation is skipped until the
+# everlong_collvault ProtocolSim lands in tycho-simulation.
+# Balances are the backing ALM's Sync totals, not tokens held by the swapper —
+# the swapper settles through a flash loan and holds nothing between txs.
+skip_balance_check: true
+protocol_type_names:
+  - "everlong_collvault"
+protocol_system: "everlong_collvault"
+tests:
+  # Requires a Berachain archive node (chain id 80094) — the public RPC prunes
+  # state after ~10k blocks and serves logs inconsistently.
+  - name: test_venue_component_creation
+    start_block: 24689570
+    stop_block: 24689670
+    skip_simulation: true # Native simulation not yet implemented
+    expected_components:
+      - id: "0x27775ec38e2b394738b73c0d25f63e20063df054"
+        tokens:
+          - "0x1ce0a25d13ce4d52071ae7e02cf1f6606f4c79d3" # NECT (stable)
+          - "0x0555e30da8f98308edb960aa94c0db47230d2b9c" # WBTC (volatile)
+        static_attributes: {}
+        creation_tx: "0x7183a5470c679130ace90fd5673df9ed78bb737ee3e61b7e49c1eee681f75b3c"
+        skip_simulation: true

@@ -1,0 +1,11 @@
+[
+  {
+    "type": "event",
+    "name": "Sync",
+    "inputs": [
+      { "name": "reserve0", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "reserve1", "type": "uint256", "indexed": false, "internalType": "uint256" }
+    ],
+    "anonymous": false
+  }
+]

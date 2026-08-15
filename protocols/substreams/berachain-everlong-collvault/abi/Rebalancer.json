@@ -1,0 +1,61 @@
+[
+  {
+    "type": "event",
+    "name": "LeverageIncreased",
+    "inputs": [
+      { "name": "caller", "type": "address", "indexed": true, "internalType": "address" },
+      { "name": "receiver", "type": "address", "indexed": true, "internalType": "address" },
+      { "name": "collVaultSharesIn", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "stableOut", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "newColl", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "newDebt", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "spreadPpm", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "icrAfter", "type": "uint256", "indexed": false, "internalType": "uint256" }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "LeverageDecreased",
+    "inputs": [
+      { "name": "caller", "type": "address", "indexed": true, "internalType": "address" },
+      { "name": "receiver", "type": "address", "indexed": true, "internalType": "address" },
+      { "name": "stableIn", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "collVaultSharesOut", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "newColl", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "newDebt", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "spreadPpm", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "icrAfter", "type": "uint256", "indexed": false, "internalType": "uint256" }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "SettlementSwapperSet",
+    "inputs": [
+      { "name": "settlementSwapper", "type": "address", "indexed": false, "internalType": "address" }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "StateSync",
+    "inputs": [
+      { "name": "collateral", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "debt", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "priceWad", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "spreadPpm", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "almStableReserve", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "almVolatileReserve", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "almSupply", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "cvTotalAssets", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "cvTotalSupply", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "withdrawFeeBp", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "interestRate", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "refStableReserve", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "refAssetReserve", "type": "uint256", "indexed": false, "internalType": "uint256" },
+      { "name": "refRawReferenceWad", "type": "uint256", "indexed": false, "internalType": "uint256" }
+    ],
+    "anonymous": false
+  }
+]
