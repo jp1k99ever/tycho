@@ -1,0 +1,31 @@
+# Extractors for the self-hosted Berachain stack. Mount as
+# /opt/tycho-indexer/extractors.yaml (EXTRACTORS_CONFIG). Build each .spkg with
+# `substreams pack` from protocols/substreams/<package>/ and place it here under
+# docker/substreams/.
+
+extractors:
+  everlong_cvamm:
+    name: "everlong_cvamm"
+    chain: "berachain"
+    implementation_type: "Custom"
+    sync_batch_size: 1000
+    start_block: 24689006
+    protocol_types:
+      - name: "everlong_cvamm_pool"
+        financial_type: "Swap"
+    spkg: "substreams/berachain-everlong-cvamm-v0.1.0.spkg"
+    module_name: "map_protocol_changes"
+
+  # The settlement venue is the CollateralRebalancer, not the CollVault it holds
+  # shares in — named after the venue, matching kyberswap-dex-lib and ks-dex-adapter-lib.
+  everlong_rebalancer:
+    name: "everlong_rebalancer"
+    chain: "berachain"
+    implementation_type: "Custom"
+    sync_batch_size: 1000
+    start_block: 24689576
+    protocol_types:
+      - name: "everlong_rebalancer_pool"
+        financial_type: "Swap"
+    spkg: "substreams/berachain-everlong-rebalancer-v0.1.0.spkg"
+    module_name: "map_protocol_changes"

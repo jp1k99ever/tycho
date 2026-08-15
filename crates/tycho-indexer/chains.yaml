@@ -1,7 +1,21 @@
-# Custom (non-built-in) chains, keyed by name so that an extractor's `chain: <name>` and the
-# `--chains <name>` flag resolve to a full chain config. Built-in chains (ethereum, base,
-# unichain, …) need no entry here — leave the list empty to run on those.
-#
-# See chains.example.yaml for a documented, filled-in entry.
+# Custom-chain config for the self-hosted Berachain stack. The indexer reads it via
+# `--chain-config` / TYCHO_CHAINS_CONFIG; consumers (tycho-simulation, tycho-client,
+# tycho-execution) resolve `berachain` through the same TYCHO_CHAINS_CONFIG variable.
 
-chains: []
+chains:
+  - name: berachain
+    chain_id: 80094
+    block_time_secs: 2
+    native:
+      address: "0x0000000000000000000000000000000000000000"
+      symbol: "BERA"
+      decimals: 18
+    wrapped_native:
+      address: "0x6969696969696969696969696969696969696969"
+      symbol: "WBERA"
+      decimals: 18
+    # TVL gates in BERA units; sized for low USD floors so the two Everlong venues
+    # are tracked from day one. Raise once more protocols are indexed on the chain.
+    default_tvl_thresholds:
+      low: 100
+      medium: 1000
