@@ -34,9 +34,7 @@ contract LunarBaseExecutor is IExecutor {
         0x0000000000000000000000000000000000000000;
     uint256 internal constant DATA_LENGTH = 60;
 
-    function fundsExpectedAddress(
-        bytes calldata /* data */
-    )
+    function fundsExpectedAddress(bytes calldata /* data */ )
         external
         view
         returns (address receiver)
@@ -60,17 +58,16 @@ contract LunarBaseExecutor is IExecutor {
         }
 
         // slither-disable-next-line unused-return
-        ILunarBasePool(pool)
-            .swapExactIn(
-                ILunarBasePool.ExactInputParams({
-                    tokenIn: _toLunarBaseToken(tokenIn),
-                    tokenOut: _toLunarBaseToken(tokenOut),
-                    recipient: receiver,
-                    amountIn: amountIn,
-                    amountOutMinimum: 0,
-                    deadline: block.timestamp
-                })
-            );
+        ILunarBasePool(pool).swapExactIn(
+            ILunarBasePool.ExactInputParams({
+                tokenIn: _toLunarBaseToken(tokenIn),
+                tokenOut: _toLunarBaseToken(tokenOut),
+                recipient: receiver,
+                amountIn: amountIn,
+                amountOutMinimum: 0,
+                deadline: block.timestamp
+            })
+        );
     }
 
     function getTransferData(bytes calldata data)

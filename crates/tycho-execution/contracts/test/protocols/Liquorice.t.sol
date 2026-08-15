@@ -7,9 +7,8 @@ import "@src/executors/LiquoriceExecutor.sol";
 import {Constants} from "../Constants.sol";
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {Permit2TestHelper} from "../Permit2TestHelper.sol";
-import {
-    SafeERC20
-} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import {SafeERC20} from
+    "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 interface ILiquoriceSettlement {
     function BALANCE_MANAGER() external view returns (address);

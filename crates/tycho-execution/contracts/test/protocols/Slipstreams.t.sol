@@ -100,7 +100,8 @@ contract SlipstreamsExecutorTest is Test, TestUtils, Constants {
             dataLength,
             protocolData
         );
-        (TransferManager.TransferType transferType, address receiver) = slipstreamsExposed.getCallbackTransferData(
+        (TransferManager.TransferType transferType, address receiver) =
+        slipstreamsExposed.getCallbackTransferData(
             callbackData, BASE_WETH, address(this)
         );
 

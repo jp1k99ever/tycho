@@ -104,9 +104,8 @@ contract EkuboV3Executor is IExecutor, ICallback {
                 if (sigLenOffset + _SIG_LEN_BYTES > data.length) {
                     revert EkuboV3Executor__InvalidDataLength();
                 }
-                uint256 sigLen = uint256(
-                    uint16(bytes2(data[sigLenOffset:sigLenOffset + 2]))
-                );
+                uint256 sigLen =
+                    uint256(uint16(bytes2(data[sigLenOffset:sigLenOffset + 2])));
                 offset += _HOP_BYTE_LEN + _SIGNED_FIXED_TAIL_LEN
                     + _SIG_LEN_BYTES + sigLen;
             } else {
@@ -125,9 +124,7 @@ contract EkuboV3Executor is IExecutor, ICallback {
         );
     }
 
-    function fundsExpectedAddress(
-        bytes calldata /* data */
-    )
+    function fundsExpectedAddress(bytes calldata /* data */ )
         external
         view
         returns (address receiver)
@@ -311,7 +308,7 @@ contract EkuboV3Executor is IExecutor, ICallback {
 
             nextTokenIn = nextTokenOut;
             nextAmountIn =
-            -(isToken1 ? balanceUpdate.delta0() : balanceUpdate.delta1());
+                -(isToken1 ? balanceUpdate.delta0() : balanceUpdate.delta1());
         }
 
         _pay(tokenIn, amountIn);

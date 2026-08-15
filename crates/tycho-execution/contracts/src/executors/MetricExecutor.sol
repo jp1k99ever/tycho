@@ -35,6 +35,7 @@ contract MetricExecutor is IExecutor, ICallback {
     uint256 private constant _ORACLE_ARGS_HEADER_LENGTH = 4;
     uint256 private constant _INT128_MAX = uint256(uint128(type(int128).max));
     // Keep this lined up with the MetricOracleUpdatePolicy byte from the Rust swap encoder.
+
     enum OracleUpdateMode {
         Never,
         Always,
@@ -58,9 +59,7 @@ contract MetricExecutor is IExecutor, ICallback {
         oracle = IMetricOracle(oracle_);
     }
 
-    function fundsExpectedAddress(
-        bytes calldata /* data */
-    )
+    function fundsExpectedAddress(bytes calldata /* data */ )
         external
         view
         returns (address receiver)
@@ -108,14 +107,13 @@ contract MetricExecutor is IExecutor, ICallback {
         }
 
         _setCurrentPool(pool);
-        IMetricPool(pool)
-            .swap(
-                receiver,
-                zeroForOne,
-                amountSpecified,
-                zeroForOne ? 0 : type(uint128).max,
-                ""
-            );
+        IMetricPool(pool).swap(
+            receiver,
+            zeroForOne,
+            amountSpecified,
+            zeroForOne ? 0 : type(uint128).max,
+            ""
+        );
         _setCurrentPool(address(0));
     }
 
@@ -188,8 +186,7 @@ contract MetricExecutor is IExecutor, ICallback {
         // comes from the immutable, so user-supplied swap bytes cannot redirect this call.
         if (oracleUpdateMode != OracleUpdateMode.Never) {
             oracleArgs = data[
-                _BASE_DATA_LENGTH
-                    + _ORACLE_ARGS_HEADER_LENGTH:
+                _BASE_DATA_LENGTH + _ORACLE_ARGS_HEADER_LENGTH:
                     _BASE_DATA_LENGTH + _ORACLE_ARGS_HEADER_LENGTH
                         + oracleArgsLength
             ];
@@ -236,14 +233,13 @@ contract MetricExecutor is IExecutor, ICallback {
         bytes calldata oracleArgs
     ) internal {
         _setCurrentPool(pool);
-        try IMetricPool(pool)
-            .swap(
-                receiver,
-                zeroForOne,
-                amountSpecified,
-                zeroForOne ? 0 : type(uint128).max,
-                ""
-            ) {
+        try IMetricPool(pool).swap(
+            receiver,
+            zeroForOne,
+            amountSpecified,
+            zeroForOne ? 0 : type(uint128).max,
+            ""
+        ) {
             _setCurrentPool(address(0));
         } catch {
             // The first swap failed, so clear callback state before calling the oracle. Set it
@@ -251,14 +247,13 @@ contract MetricExecutor is IExecutor, ICallback {
             _setCurrentPool(address(0));
             _updateOracle(oracleArgs);
             _setCurrentPool(pool);
-            IMetricPool(pool)
-                .swap(
-                    receiver,
-                    zeroForOne,
-                    amountSpecified,
-                    zeroForOne ? 0 : type(uint128).max,
-                    ""
-                );
+            IMetricPool(pool).swap(
+                receiver,
+                zeroForOne,
+                amountSpecified,
+                zeroForOne ? 0 : type(uint128).max,
+                ""
+            );
             _setCurrentPool(address(0));
         }
     }

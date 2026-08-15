@@ -54,9 +54,7 @@ contract LiquoriceExecutor is IExecutor {
         liquoriceBalanceManager = _liquoriceBalanceManager;
     }
 
-    function fundsExpectedAddress(
-        bytes calldata /* data */
-    )
+    function fundsExpectedAddress(bytes calldata /* data */ )
         external
         view
         returns (address receiver)

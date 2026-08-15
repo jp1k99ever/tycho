@@ -17,14 +17,11 @@ error BalancerV2Executor__InvalidDataLength();
 contract BalancerV2Executor is IExecutor {
     using SafeERC20 for IERC20;
 
-    address private constant _VAULT =
-        0xBA12222222228d8Ba445958a75a0704d566BF2C8;
+    address private constant _VAULT = 0xBA12222222228d8Ba445958a75a0704d566BF2C8;
 
     constructor() {}
 
-    function fundsExpectedAddress(
-        bytes calldata /* data */
-    )
+    function fundsExpectedAddress(bytes calldata /* data */ )
         external
         view
         returns (address receiver)

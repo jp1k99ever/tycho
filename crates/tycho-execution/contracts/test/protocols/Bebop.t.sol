@@ -6,9 +6,8 @@ import "@src/executors/BebopExecutor.sol";
 import {Constants} from "../Constants.sol";
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {Permit2TestHelper} from "../Permit2TestHelper.sol";
-import {
-    SafeERC20
-} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import {SafeERC20} from
+    "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 contract BebopExecutorExposed is BebopExecutor {
     constructor(address _bebopSettlement, address _bebopRouter)
@@ -360,7 +359,9 @@ contract BebopExecutorTest is Constants, Permit2TestHelper, TestUtils {
 
         (
             TransferManager.TransferType transferType,
-            address decodedReceiver,,,
+            address decodedReceiver,
+            ,
+            ,
             bool outputToRouter
         ) = bebopExecutor.getTransferData(params);
 

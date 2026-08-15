@@ -27,7 +27,8 @@ contract OverchargingFeeCalculator is IFeeCalculator {
     {
         feeRecipients = new FeeRecipient[](2);
         feeRecipients[0] = FeeRecipient({
-            recipient: address(0xFEE), feeAmount: feeInput.actualAmountOut
+            recipient: address(0xFEE),
+            feeAmount: feeInput.actualAmountOut
         });
         feeRecipients[1] =
             FeeRecipient({recipient: feeInput.client, feeAmount: 1});
@@ -129,10 +130,12 @@ contract TychoRouterFeesTest is TychoRouterTestSetup {
         );
         FeeRecipient[] memory expectedFees = new FeeRecipient[](2);
         expectedFees[0] = FeeRecipient({
-            recipient: routerFeeReceiver, feeAmount: expectedRouterFee
+            recipient: routerFeeReceiver,
+            feeAmount: expectedRouterFee
         });
         expectedFees[1] = FeeRecipient({
-            recipient: clientFeeReceiver, feeAmount: expectedClientFee
+            recipient: clientFeeReceiver,
+            feeAmount: expectedClientFee
         });
         vm.expectEmit();
         emit FeesTaken(DAI_ADDR, expectedFees);
@@ -152,15 +155,13 @@ contract TychoRouterFeesTest is TychoRouterTestSetup {
         assertEq(swapOutput, expectedAmountOut);
 
         // Check router fee receiver vault balance
-        uint256 routerFeeReceiverBalance = tychoRouter.balanceOf(
-            routerFeeReceiver, uint256(uint160(DAI_ADDR))
-        );
+        uint256 routerFeeReceiverBalance =
+            tychoRouter.balanceOf(routerFeeReceiver, uint256(uint160(DAI_ADDR)));
         assertEq(routerFeeReceiverBalance, expectedRouterFee);
 
         // Check client fee receiver vault balance
-        uint256 clientFeeReceiverBalance = tychoRouter.balanceOf(
-            clientFeeReceiver, uint256(uint160(DAI_ADDR))
-        );
+        uint256 clientFeeReceiverBalance =
+            tychoRouter.balanceOf(clientFeeReceiver, uint256(uint160(DAI_ADDR)));
         assertEq(clientFeeReceiverBalance, expectedClientFee);
 
         // Check ALICE received correct amount in her address (not vault)
@@ -184,10 +185,12 @@ contract TychoRouterFeesTest is TychoRouterTestSetup {
         uint256 expectedFeeAmount = 20188174386087344397;
         FeeRecipient[] memory expectedFees = new FeeRecipient[](2);
         expectedFees[0] = FeeRecipient({
-            recipient: feeCalculator.getRouterFeeReceiver(), feeAmount: 0
+            recipient: feeCalculator.getRouterFeeReceiver(),
+            feeAmount: 0
         });
         expectedFees[1] = FeeRecipient({
-            recipient: clientFeeReceiver, feeAmount: expectedFeeAmount
+            recipient: clientFeeReceiver,
+            feeAmount: expectedFeeAmount
         });
         vm.expectEmit();
         emit FeesTaken(DAI_ADDR, expectedFees);
@@ -201,9 +204,8 @@ contract TychoRouterFeesTest is TychoRouterTestSetup {
         assertEq(balanceAfter - balanceBefore, expectedAmountOut);
 
         // Check client fee receiver vault balance (BOB)
-        uint256 clientFeeReceiverBalance = tychoRouter.balanceOf(
-            clientFeeReceiver, uint256(uint160(DAI_ADDR))
-        );
+        uint256 clientFeeReceiverBalance =
+            tychoRouter.balanceOf(clientFeeReceiver, uint256(uint160(DAI_ADDR)));
         assertEq(clientFeeReceiverBalance, expectedFeeAmount);
     }
 
@@ -238,10 +240,12 @@ contract TychoRouterFeesTest is TychoRouterTestSetup {
         uint256 expectedFeeAmount = 20188174386087344397;
         FeeRecipient[] memory expectedFees = new FeeRecipient[](2);
         expectedFees[0] = FeeRecipient({
-            recipient: routerFeeReceiver, feeAmount: expectedFeeAmount
+            recipient: routerFeeReceiver,
+            feeAmount: expectedFeeAmount
         });
         expectedFees[1] = FeeRecipient({
-            recipient: clientFeeReceiver, feeAmount: expectedFeeAmount
+            recipient: clientFeeReceiver,
+            feeAmount: expectedFeeAmount
         });
         vm.expectEmit();
         emit FeesTaken(DAI_ADDR, expectedFees);
@@ -254,15 +258,13 @@ contract TychoRouterFeesTest is TychoRouterTestSetup {
         uint256 expectedAmountOut = 2000_000000000000000000;
         assertEq(balanceAfter - balanceBefore, expectedAmountOut);
         // Check router fee receiver vault balance
-        uint256 routerFeeReceiverBalance = tychoRouter.balanceOf(
-            routerFeeReceiver, uint256(uint160(DAI_ADDR))
-        );
+        uint256 routerFeeReceiverBalance =
+            tychoRouter.balanceOf(routerFeeReceiver, uint256(uint160(DAI_ADDR)));
         assertEq(routerFeeReceiverBalance, expectedFeeAmount);
 
         // Check client fee receiver vault balance
-        uint256 clientFeeReceiverBalance = tychoRouter.balanceOf(
-            clientFeeReceiver, uint256(uint160(DAI_ADDR))
-        );
+        uint256 clientFeeReceiverBalance =
+            tychoRouter.balanceOf(clientFeeReceiver, uint256(uint160(DAI_ADDR)));
         // there are leftover funds from the contribution so this value is not only the expectedFeeAmount
         assertGt(clientFeeReceiverBalance, expectedFeeAmount);
     }
@@ -285,10 +287,12 @@ contract TychoRouterFeesTest is TychoRouterTestSetup {
         uint256 expectedFeeAmount = 19518562;
         FeeRecipient[] memory expectedFees = new FeeRecipient[](2);
         expectedFees[0] = FeeRecipient({
-            recipient: feeCalculator.getRouterFeeReceiver(), feeAmount: 0
+            recipient: feeCalculator.getRouterFeeReceiver(),
+            feeAmount: 0
         });
         expectedFees[1] = FeeRecipient({
-            recipient: clientFeeReceiver, feeAmount: expectedFeeAmount
+            recipient: clientFeeReceiver,
+            feeAmount: expectedFeeAmount
         });
         vm.expectEmit();
         emit FeesTaken(USDC_ADDR, expectedFees);
@@ -562,9 +566,8 @@ contract TychoRouterFeesTest is TychoRouterTestSetup {
         vm.stopPrank();
 
         assertEq(swapOutput, _EXPECTED_AMOUNT_OUT);
-        uint256 clientVaultBalance = tychoRouter.balanceOf(
-            clientFeeReceiver, uint256(uint160(DAI_ADDR))
-        );
+        uint256 clientVaultBalance =
+            tychoRouter.balanceOf(clientFeeReceiver, uint256(uint160(DAI_ADDR)));
         assertEq(clientVaultBalance, _EXPECTED_CLIENT_FEE);
     }
 
@@ -630,10 +633,12 @@ contract TychoRouterFeesTest is TychoRouterTestSetup {
         uint256 expectedFeeAmount = 19958604;
         FeeRecipient[] memory expectedFees = new FeeRecipient[](2);
         expectedFees[0] = FeeRecipient({
-            recipient: feeCalculator.getRouterFeeReceiver(), feeAmount: 0
+            recipient: feeCalculator.getRouterFeeReceiver(),
+            feeAmount: 0
         });
         expectedFees[1] = FeeRecipient({
-            recipient: clientFeeReceiver, feeAmount: expectedFeeAmount
+            recipient: clientFeeReceiver,
+            feeAmount: expectedFeeAmount
         });
         vm.expectEmit();
         emit FeesTaken(USDC_ADDR, expectedFees);
@@ -754,9 +759,7 @@ contract TychoRouterFeesTest is TychoRouterTestSetup {
         assertEq(amountOut, expectedAmountOut);
         assertEq(IERC20(DAI_ADDR).balanceOf(ALICE), expectedAmountOut);
         assertEq(
-            tychoRouter.balanceOf(
-                routerFeeReceiver, uint256(uint160(DAI_ADDR))
-            ),
+            tychoRouter.balanceOf(routerFeeReceiver, uint256(uint160(DAI_ADDR))),
             expectedRouterFee
         );
         // No client fee — address(0) vault stays empty
@@ -815,9 +818,8 @@ contract TychoRouterFeesTest is TychoRouterTestSetup {
         vm.stopPrank();
 
         // clientFeeReceiver (default, 0% router fee) was used — no router fee collected
-        uint256 routerFeeBalance = tychoRouter.balanceOf(
-            routerFeeReceiver, uint256(uint160(DAI_ADDR))
-        );
+        uint256 routerFeeBalance =
+            tychoRouter.balanceOf(routerFeeReceiver, uint256(uint160(DAI_ADDR)));
         assertEq(
             routerFeeBalance,
             0,

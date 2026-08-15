@@ -12,28 +12,23 @@ import {
 import {IPoolManager} from "@uniswap/v4-core/src/interfaces/IPoolManager.sol";
 import {SwapParams} from "@uniswap/v4-core/src/types/PoolOperation.sol";
 import {
-    Currency,
-    CurrencyLibrary
+    Currency, CurrencyLibrary
 } from "@uniswap/v4-core/src/types/Currency.sol";
 import {PoolKey} from "@uniswap/v4-core/src/types/PoolKey.sol";
 import {BalanceDelta} from "@uniswap/v4-core/src/types/BalanceDelta.sol";
 import {TickMath} from "@uniswap/v4-core/src/libraries/TickMath.sol";
 import {IHooks} from "@uniswap/v4-core/src/interfaces/IHooks.sol";
 import {PathKey} from "@uniswap/v4-periphery/src/libraries/PathKey.sol";
-import {
-    IUnlockCallback
-} from "@uniswap/v4-core/src/interfaces/callback/IUnlockCallback.sol";
-import {
-    SafeCast as V4SafeCast
-} from "@uniswap/v4-core/src/libraries/SafeCast.sol";
-import {
-    TransientStateLibrary
-} from "@uniswap/v4-core/src/libraries/TransientStateLibrary.sol";
+import {IUnlockCallback} from
+    "@uniswap/v4-core/src/interfaces/callback/IUnlockCallback.sol";
+import {SafeCast as V4SafeCast} from
+    "@uniswap/v4-core/src/libraries/SafeCast.sol";
+import {TransientStateLibrary} from
+    "@uniswap/v4-core/src/libraries/TransientStateLibrary.sol";
 import {TransferManager} from "../TransferManager.sol";
 import {Address} from "@openzeppelin/contracts/utils/Address.sol";
-import {
-    LibPrefixLengthEncodedByteArray
-} from "../../lib/bytes/LibPrefixLengthEncodedByteArray.sol";
+import {LibPrefixLengthEncodedByteArray} from
+    "../../lib/bytes/LibPrefixLengthEncodedByteArray.sol";
 
 error UniswapV4Executor__InvalidDataLength();
 error UniswapV4Executor__NotPoolManager();
@@ -138,9 +133,7 @@ contract UniswapV4Executor is IExecutor, ICallback {
             PathKey[] memory path = new PathKey[](pools.length);
             for (uint256 i = 0; i < pools.length; i++) {
                 path[i] = PathKey({
-                    intermediateCurrency: Currency.wrap(
-                        pools[i].intermediaryToken
-                    ),
+                    intermediateCurrency: Currency.wrap(pools[i].intermediaryToken),
                     fee: pools[i].fee,
                     tickSpacing: pools[i].tickSpacing,
                     hooks: IHooks(pools[i].hook),
@@ -368,8 +361,8 @@ contract UniswapV4Executor is IExecutor, ICallback {
         uint256 swapAmountIn = _getFullCredit(currencyIn);
 
         uint128 amountOut = _swap(
-                poolKey, zeroForOne, -int256(swapAmountIn), hookData
-            ).toUint128();
+            poolKey, zeroForOne, -int256(swapAmountIn), hookData
+        ).toUint128();
 
         Currency currencyOut =
             zeroForOne ? poolKey.currency1 : poolKey.currency0;
@@ -405,11 +398,11 @@ contract UniswapV4Executor is IExecutor, ICallback {
                 (PoolKey memory poolKey, bool zeroForOne) =
                     pathKey.getPoolAndSwapDirection(swapCurrencyIn);
                 amountOut = _swap(
-                        poolKey,
-                        zeroForOne,
-                        -int256(uint256(swapAmountIn)),
-                        pathKey.hookData
-                    ).toUint128();
+                    poolKey,
+                    zeroForOne,
+                    -int256(uint256(swapAmountIn)),
+                    pathKey.hookData
+                ).toUint128();
 
                 swapAmountIn = amountOut;
                 swapCurrencyIn = pathKey.intermediateCurrency;
@@ -521,7 +514,9 @@ contract UniswapV4Executor is IExecutor, ICallback {
 
         // Calculate number of attestations from data length
         if (attestationData.length % totalLength != 0) {
-            revert UniswapV4Executor__InvalidAngstromAttestationDataLength(attestationData.length);
+            revert UniswapV4Executor__InvalidAngstromAttestationDataLength(
+                attestationData.length
+            );
         }
 
         uint256 attestationCount = attestationData.length / totalLength;
@@ -534,10 +529,8 @@ contract UniswapV4Executor is IExecutor, ICallback {
             // slither-disable-next-line assembly
             assembly {
                 // Load block number (8 bytes) - shift right to get the first 8 bytes
-                blockNumber := shr(
-                    192,
-                    mload(add(add(attestationData, 0x20), offset))
-                )
+                blockNumber :=
+                    shr(192, mload(add(add(attestationData, 0x20), offset)))
 
                 // Copy attestation (85 bytes)
                 let src := add(add(attestationData, 0x20), add(offset, 8))

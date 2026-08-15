@@ -18,26 +18,18 @@ import {
     createSignedSwapMeta
 } from "@ekubo-v3/types/signedSwapMeta.sol";
 import {ControllerAddress} from "@ekubo-v3/types/controllerAddress.sol";
-import {
-    ISignedExclusiveSwap
-} from "@ekubo-v3/interfaces/extensions/ISignedExclusiveSwap.sol";
-import {
-    SignedExclusiveSwapLib
-} from "@ekubo-v3/libraries/SignedExclusiveSwapLib.sol";
+import {ISignedExclusiveSwap} from
+    "@ekubo-v3/interfaces/extensions/ISignedExclusiveSwap.sol";
+import {SignedExclusiveSwapLib} from
+    "@ekubo-v3/libraries/SignedExclusiveSwapLib.sol";
 // Imported so Forge compiles the artifact for deployCodeTo.
-import {
-    SignedExclusiveSwap
-} from "@ekubo-v3/extensions/SignedExclusiveSwap.sol";
+import {SignedExclusiveSwap} from "@ekubo-v3/extensions/SignedExclusiveSwap.sol";
 
 // Handles callbacks directly and receives the native token directly
 contract EkuboV3ExecutorStandalone is EkuboV3Executor, ILocker {
     constructor() EkuboV3Executor() {}
 
-    function locked_6416899205(
-        uint256 /* id */
-    )
-        external
-    {
+    function locked_6416899205(uint256 /* id */ ) external {
         // swapData layout in msg.data: selector(4) | id(32) | amountIn(16) | receiver(20) | tokenIn(20) | ...
         // tokenIn starts at byte 72 (4 + 32 + 16 + 20 = 72)
         // Swap data already uses ETH_ADDRESS for native ETH;
@@ -90,8 +82,9 @@ contract EkuboV3ExecutorTest is Constants, TestUtils {
         // The current stable (Dec 2024) predates Fusaka (Dec 2025),
         // so Osaka opcodes aren't enabled for post-Fusaka blocks.
         // See: https://github.com/foundry-rs/foundry/issues/13040
-        address(vm)
-            .call(abi.encodeWithSignature("setEvmVersion(string)", "osaka"));
+        address(vm).call(
+            abi.encodeWithSignature("setEvmVersion(string)", "osaka")
+        );
 
         _;
     }
@@ -254,11 +247,7 @@ contract LiquidityHelper {
         );
     }
 
-    function locked_6416899205(
-        uint256 /* id */
-    )
-        external
-    {
+    function locked_6416899205(uint256 /* id */ ) external {
         (
             PoolKey memory poolKey,
             int32 tickLower,
@@ -322,8 +311,9 @@ contract EkuboV3SignedSwapTest is Constants, TestUtils {
     modifier setUpFork(uint256 blockNumber) {
         vm.createSelectFork(vm.rpcUrl("mainnet"), blockNumber);
         // TODO: remove once Foundry stable includes the Fusaka hardfork mapping.
-        address(vm)
-            .call(abi.encodeWithSignature("setEvmVersion(string)", "osaka"));
+        address(vm).call(
+            abi.encodeWithSignature("setEvmVersion(string)", "osaka")
+        );
         _;
     }
 
@@ -493,8 +483,9 @@ contract TychoRouterForEkuboV3Test is TychoRouterTestSetup {
         super.setUp();
 
         // TODO: remove once Foundry stable includes the Fusaka hardfork mapping.
-        address(vm)
-            .call(abi.encodeWithSignature("setEvmVersion(string)", "osaka"));
+        address(vm).call(
+            abi.encodeWithSignature("setEvmVersion(string)", "osaka")
+        );
 
         // Remove delegations
         vm.etch(ALICE, "");

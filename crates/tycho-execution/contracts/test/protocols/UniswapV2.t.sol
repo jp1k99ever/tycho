@@ -11,9 +11,8 @@ import {Constants} from "../Constants.sol";
 import {Permit2TestHelper} from "../Permit2TestHelper.sol";
 import {Test} from "../../lib/forge-std/src/Test.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {
-    SafeERC20
-} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import {SafeERC20} from
+    "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 contract UniswapV2ExecutorExposed is UniswapV2Executor {
     constructor(uint256 _feeBps) UniswapV2Executor(_feeBps) {}

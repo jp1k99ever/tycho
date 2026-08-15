@@ -14,14 +14,12 @@ import {
 import {TransferManager__DifferentTokenIn} from "@src/TransferManager.sol";
 import {IExecutor} from "@interfaces/IExecutor.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {
-    SafeERC20
-} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import {SafeERC20} from
+    "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {Address} from "@openzeppelin/contracts/utils/Address.sol";
 import {IWETH} from "../lib/IWETH.sol";
-import {
-    IUniswapV2Pair
-} from "@uniswap-v2/contracts/interfaces/IUniswapV2Pair.sol";
+import {IUniswapV2Pair} from
+    "@uniswap-v2/contracts/interfaces/IUniswapV2Pair.sol";
 import "./TychoRouterTestSetup.sol";
 import {NativeWrapExecutor} from "../src/executors/NativeWrapExecutor.sol";
 
@@ -178,7 +176,11 @@ contract TychoRouterUsingVaultTest is TychoRouterTestSetup {
     }
 
     // ==================== Native Transfer tests ====================
-    function _rocketpoolEthRethSwap() private view returns (bytes memory swap) {
+    function _rocketpoolEthRethSwap()
+        private
+        view
+        returns (bytes memory swap)
+    {
         swap = encodeSingleSwap(
             address(rocketpoolExecutor),
             abi.encodePacked(
@@ -813,9 +815,7 @@ contract TychoRouterUsingVaultTest is TychoRouterTestSetup {
 
         // Vault fully drained
         assertEq(
-            tychoRouter.balanceOf(
-                address(batcher), uint256(uint160(WETH_ADDR))
-            ),
+            tychoRouter.balanceOf(address(batcher), uint256(uint160(WETH_ADDR))),
             0
         );
         // Batcher received DAI from both swaps

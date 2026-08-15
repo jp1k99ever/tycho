@@ -39,7 +39,11 @@ contract AerodromeV1ExecutorExposed is AerodromeV1Executor {
     }
 }
 
-contract AerodromeV1ExecutorTest is Constants, TestUtils, AerodromeV1TestBase {
+contract AerodromeV1ExecutorTest is
+    Constants,
+    TestUtils,
+    AerodromeV1TestBase
+{
     AerodromeV1ExecutorExposed aerodromeV1Exposed;
     IERC20 token0 = IERC20(AERODROME_V1_TBTC);
     IERC20 token1 = IERC20(AERODROME_V1_USDBC);
@@ -245,8 +249,8 @@ contract TychoRouterForAerodromeV1Test is
     function testSequentialAerodromeV1Integration() public {
         uint256 amountIn = 10 ether;
         uint256 intermediateAmountOut = IAerodromeV1Pool(
-                AERODROME_V1_STABLE_POOL
-            ).getAmountOut(amountIn, AERODROME_V1_DOLA);
+            AERODROME_V1_STABLE_POOL
+        ).getAmountOut(amountIn, AERODROME_V1_DOLA);
         uint256 expectedAmountOut = IAerodromeV1Pool(AERODROME_V1_VOLATILE_POOL)
             .getAmountOut(intermediateAmountOut, AERODROME_V1_USDBC);
         deal(AERODROME_V1_DOLA, ALICE, amountIn);

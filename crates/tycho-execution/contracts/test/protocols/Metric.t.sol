@@ -47,9 +47,7 @@ contract MockMetricOracle {
         uint256, /* slotId */
         uint256, /* deadline */
         bytes calldata /* signature */
-    )
-        external
-    {
+    ) external {
         updated = true;
     }
 }
@@ -89,16 +87,14 @@ contract MockMetricPool {
         uint256 amountOut = amountIn * 2;
 
         if (zeroForOne) {
-            IMetricSwapCallback(msg.sender)
-                .metricOmmSwapCallback(
-                    int256(amountIn), -int256(amountOut), data
-                );
+            IMetricSwapCallback(msg.sender).metricOmmSwapCallback(
+                int256(amountIn), -int256(amountOut), data
+            );
             IERC20(token1).transfer(receiver, amountOut);
         } else {
-            IMetricSwapCallback(msg.sender)
-                .metricOmmSwapCallback(
-                    -int256(amountOut), int256(amountIn), data
-                );
+            IMetricSwapCallback(msg.sender).metricOmmSwapCallback(
+                -int256(amountOut), int256(amountIn), data
+            );
             IERC20(token0).transfer(receiver, amountOut);
         }
     }
@@ -171,7 +167,8 @@ contract MetricDispatcherHarness {
             revert MetricDispatcherHarness__NoExecutor();
         }
 
-        (bool transferDataSuccess, bytes memory transferData) = executor.staticcall(
+        (bool transferDataSuccess, bytes memory transferData) = executor
+            .staticcall(
             abi.encodeWithSelector(
                 ICallback.getCallbackTransferData.selector,
                 data,
@@ -393,7 +390,10 @@ contract MetricExecutorTest is Test {
         );
     }
 
-    function _pool(bool requireOracleUpdate) internal returns (MockMetricPool) {
+    function _pool(bool requireOracleUpdate)
+        internal
+        returns (MockMetricPool)
+    {
         return new MockMetricPool(
             address(token0), address(token1), oracle, requireOracleUpdate
         );

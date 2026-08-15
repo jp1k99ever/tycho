@@ -31,9 +31,7 @@ contract NativeWrapExecutor is IExecutor {
         wrapped = IWrapped(wrappedAddress);
     }
 
-    function fundsExpectedAddress(
-        bytes calldata /* data */
-    )
+    function fundsExpectedAddress(bytes calldata /* data */ )
         external
         view
         returns (address receiver)

@@ -5,9 +5,8 @@ import {
     SafeERC20,
     IERC20
 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import {
-    IAllowanceTransfer
-} from "@permit2/src/interfaces/IAllowanceTransfer.sol";
+import {IAllowanceTransfer} from
+    "@permit2/src/interfaces/IAllowanceTransfer.sol";
 import {Address} from "@openzeppelin/contracts/utils/Address.sol";
 import {Vault} from "./Vault.sol";
 import {ETH_ADDRESS} from "../lib/NativeETH.sol";
@@ -17,9 +16,7 @@ error TransferManager__NotAContract(address addr);
 error TransferManager__ExceededTransferFromAllowance(
     uint256 allowedAmount, uint256 amountAttempted
 );
-error TransferManager__DifferentTokenIn(
-    address tokenIn, address tokenInStorage
-);
+error TransferManager__DifferentTokenIn(address tokenIn, address tokenInStorage);
 error TransferManager__UnknownTransferType();
 
 /**
@@ -283,10 +280,9 @@ contract TransferManager is Vault {
         returns (uint256)
     {
         // slither-disable-next-line calls-loop
-        return
-            token == ETH_ADDRESS
-                ? owner.balance
-                : IERC20(token).balanceOf(owner);
+        return token == ETH_ADDRESS
+            ? owner.balance
+            : IERC20(token).balanceOf(owner);
     }
 
     /**
