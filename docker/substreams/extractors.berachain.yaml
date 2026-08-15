@@ -1,0 +1,29 @@
+# Extractors for the self-hosted Berachain stack. Mount as
+# /opt/tycho-indexer/extractors.yaml (EXTRACTORS_CONFIG). Build each .spkg with
+# `substreams pack` from protocols/substreams/<package>/ and place it here under
+# docker/substreams/.
+
+extractors:
+  everlong_cvamm:
+    name: "everlong_cvamm"
+    chain: "berachain"
+    implementation_type: "Custom"
+    sync_batch_size: 1000
+    start_block: 24689006
+    protocol_types:
+      - name: "everlong_cvamm_pool"
+        financial_type: "Swap"
+    spkg: "substreams/berachain-everlong-cvamm-v0.1.0.spkg"
+    module_name: "map_protocol_changes"
+
+  everlong_collvault:
+    name: "everlong_collvault"
+    chain: "berachain"
+    implementation_type: "Custom"
+    sync_batch_size: 1000
+    start_block: 24689576
+    protocol_types:
+      - name: "everlong_collvault"
+        financial_type: "Swap"
+    spkg: "substreams/berachain-everlong-collvault-v0.1.0.spkg"
+    module_name: "map_protocol_changes"
