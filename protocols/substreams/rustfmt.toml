@@ -31,4 +31,5 @@ ignore = [
     "ethereum-rocketpool/src/abi",
     "unichain-velodrome/src/abi",
     "polygon-ramses-v3/src/abi",
+    "berachain-everlong-cvamm/src/abi",
 ]
