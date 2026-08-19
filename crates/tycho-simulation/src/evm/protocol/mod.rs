@@ -8,6 +8,8 @@ pub mod ekubo;
 pub mod ekubo_v3;
 pub mod erc4626;
 pub mod etherfi;
+pub mod everlong_cvamm;
+pub mod everlong_rebalancer;
 pub mod filters;
 pub mod fluid;
 pub mod lunarbase;
