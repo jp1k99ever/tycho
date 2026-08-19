@@ -1,0 +1,22 @@
+substreams_yaml_path: ./berachain-everlong-cvamm.yaml
+# Native integration — no VM adapter contract; simulation is skipped until the
+# everlong_cvamm ProtocolSim lands in tycho-simulation.
+skip_balance_check: false
+protocol_type_names:
+  - "everlong_cvamm_pool"
+protocol_system: "everlong_cvamm"
+tests:
+  # Requires a Berachain archive node (chain id 80094) — the public RPC prunes
+  # state after ~10k blocks and serves logs inconsistently.
+  - name: test_alm_component_creation
+    start_block: 24689000
+    stop_block: 24689100
+    skip_simulation: true # Native simulation not yet implemented
+    expected_components:
+      - id: "0xf5124f5605ce1e91a7429b837b7dac8f9e5378dd"
+        tokens:
+          - "0x1ce0a25d13ce4d52071ae7e02cf1f6606f4c79d3" # NECT (stable, token0)
+          - "0x0555e30da8f98308edb960aa94c0db47230d2b9c" # WBTC (volatile, token1)
+        static_attributes: {}
+        creation_tx: "0x7e5b4aac17255d00576ce25918591ac60339677e6e3034a9dfa00371a8b27c90"
+        skip_simulation: true
