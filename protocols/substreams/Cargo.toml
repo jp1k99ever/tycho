@@ -27,6 +27,7 @@ members = [
     "base-aerodrome-slipstreams",
     "base-lunarbase",
     "berachain-everlong-cvamm",
+    "berachain-everlong-rebalancer",
     "ethereum-erc4626",
     "ethereum-rocketpool",
     "unichain-velodrome",

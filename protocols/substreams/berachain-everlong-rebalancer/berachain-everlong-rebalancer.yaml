@@ -1,0 +1,69 @@
+specVersion: v0.1.0
+package:
+  name: "berachain_everlong_rebalancer"
+  version: v0.1.0
+  description: "Everlong CollateralRebalancer (CollateralRebalancerSwapper CR bonding curve) indexing on Berachain"
+
+protobuf:
+  files:
+    - tycho/evm/v1/common.proto
+    - tycho/evm/v1/utils.proto
+  importPaths:
+    - ../../../proto/
+
+binaries:
+  default:
+    type: wasm/rust-v1
+    file: ../target/wasm32-unknown-unknown/release/berachain_everlong_rebalancer.wasm
+
+modules:
+  # SettlementSwapperSet(0x27775EC3...DF054) emitted at block 24689576
+  # (tx 0x7183a5470c679130ace90fd5673df9ed78bb737ee3e61b7e49c1eee681f75b3c),
+  # the block the venue became routable.
+  - name: map_protocol_components
+    kind: map
+    initialBlock: 24689576
+    inputs:
+      - params: string
+      - source: sf.ethereum.type.v2.Block
+    output:
+      type: proto:tycho.evm.v1.BlockTransactionProtocolComponents
+
+  - name: store_protocol_components
+    kind: store
+    initialBlock: 24689576
+    updatePolicy: set_if_not_exists
+    valueType: proto:tycho.evm.v1.ProtocolComponent
+    inputs:
+      - map: map_protocol_components
+
+  - name: map_protocol_changes
+    kind: map
+    initialBlock: 24689576
+    inputs:
+      - params: string
+      - source: sf.ethereum.type.v2.Block
+      - map: map_protocol_components
+      - store: store_protocol_components
+    output:
+      type: proto:tycho.evm.v1.BlockChanges
+
+# Configurable contract constants: venue addresses plus the deployment-frozen
+# CollRebalancerMath curve set, emitted as creation attributes. A redeploy with new
+# constants is a params edit, not a code change. `math` is that library's address, which
+# has no getter on the rebalancer and so travels to the executor as a component static
+# attribute alongside the leverage ratio it validates against.
+#
+# That set is only frozen as long as the implementation behind the rebalancer proxy is:
+# `leverageCurve()` is `pure` over the linked CollRebalancerMath, so a curve change is an
+# upgrade, and the proxy's `Upgraded` log is the only notice of one. Set `rebalancer_impl`
+# to the implementation the constants below were verified against and an upgrade away from
+# it clears curve_tracked, which stops the simulation quoting; leave it unset and every
+# upgrade does. Either way, re-verifying the constants and repointing this is what resumes
+# quoting — the substreams cannot read the new curve from a base block.
+params:
+  map_protocol_components: "math=0x72489064be7b96c56b17b1627f089217b38ad292&swapper=0x27775EC38E2b394738B73C0D25f63e20063DF054&rebalancer=0xA6b848d899189d263a9398F1DF4534Af7B06d6b3&alm=0xF5124F5605ce1e91A7429B837b7daC8f9E5378dd&stable=0x1cE0a25D13CE4d52071aE7e02Cf1F6606F4C79d3&volatile=0x0555E30da8f98308EdB960aa94C0Db47230d2B9c"
+  map_protocol_changes: "math=0x72489064be7b96c56b17b1627f089217b38ad292&swapper=0x27775EC38E2b394738B73C0D25f63e20063DF054&rebalancer=0xA6b848d899189d263a9398F1DF4534Af7B06d6b3&alm=0xF5124F5605ce1e91A7429B837b7daC8f9E5378dd&stable=0x1cE0a25D13CE4d52071aE7e02Cf1F6606F4C79d3&volatile=0x0555E30da8f98308EdB960aa94C0Db47230d2B9c"
+
+# Custom chain — the self-hosted Firehose advertises it via CHAIN_NAME=berachain.
+network: berachain
