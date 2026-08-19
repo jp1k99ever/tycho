@@ -1,9 +1,7 @@
 pragma solidity ^0.8.26;
 
 import "@src/FeeCalculator.sol";
-import {
-    IAccessControl
-} from "@openzeppelin/contracts/access/IAccessControl.sol";
+import {IAccessControl} from "@openzeppelin/contracts/access/IAccessControl.sol";
 import {FeeRecipient, FeeInput} from "../lib/FeeStructs.sol";
 import "./Constants.sol";
 

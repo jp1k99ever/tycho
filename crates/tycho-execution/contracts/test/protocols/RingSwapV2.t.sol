@@ -13,9 +13,8 @@ import {
     RingSwapV2Executor__ZeroRingSwapFactory
 } from "@src/executors/RingSwapV2Executor.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {
-    IUniswapV2Pair
-} from "@uniswap-v2/contracts/interfaces/IUniswapV2Pair.sol";
+import {IUniswapV2Pair} from
+    "@uniswap-v2/contracts/interfaces/IUniswapV2Pair.sol";
 
 interface IFewWrappedTokenWithUnderlying {
     function token() external view returns (address);
@@ -225,12 +224,12 @@ contract RingSwapV2ExecutorTest is Constants, TestUtils {
         ringSwapV2Exposed.getTransferData(params);
     }
 
-    function testGetTransferDataRejectsZeroPairWhenFactoryReturnsZero() public {
+    function testGetTransferDataRejectsZeroPairWhenFactoryReturnsZero()
+        public
+    {
         vm.mockCall(
             RING_SWAP_FACTORY,
-            abi.encodeWithSignature(
-                "getPair(address,address)", FW_DAI, FW_WETH
-            ),
+            abi.encodeWithSignature("getPair(address,address)", FW_DAI, FW_WETH),
             abi.encode(address(0))
         );
         bytes memory params =
@@ -345,8 +344,9 @@ contract RingSwapV2ExecutorTest is Constants, TestUtils {
         bytes memory params = abi.encodePacked(
             RING_USDC_DAI_PAIR, DAI_ADDR, USDC_ADDR, FW_DAI, FW_USDC
         );
-        (bool success,) = address(executor)
-            .call(abi.encodeCall(executor.swap, (amountIn, params, BOB)));
+        (bool success,) = address(executor).call(
+            abi.encodeCall(executor.swap, (amountIn, params, BOB))
+        );
 
         assertFalse(success);
     }

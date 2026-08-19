@@ -28,9 +28,7 @@ contract FermiSwapExecutor is IExecutor {
         fermiSwapper = IFermiSwapper(fermiSwapper_);
     }
 
-    function fundsExpectedAddress(
-        bytes calldata /* data */
-    )
+    function fundsExpectedAddress(bytes calldata /* data */ )
         external
         view
         returns (address receiver)

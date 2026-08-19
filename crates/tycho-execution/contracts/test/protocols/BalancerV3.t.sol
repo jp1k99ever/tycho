@@ -1,9 +1,8 @@
 pragma solidity ^0.8.26;
 
 import "../TychoRouterTestSetup.sol";
-import {
-    BalancerV3Executor__InvalidDataLength
-} from "../../src/executors/BalancerV3Executor.sol";
+import {BalancerV3Executor__InvalidDataLength} from
+    "../../src/executors/BalancerV3Executor.sol";
 
 contract BalancerV3ExecutorExposed is BalancerV3Executor {
     constructor() BalancerV3Executor() {}
@@ -42,8 +41,7 @@ contract BalancerV3ExecutorTest is Constants, TestUtils {
     address WETH_osETH_pool =
         address(0x57c23c58B1D8C3292c15BEcF07c62C5c52457A42);
     address osETH_ADDR = address(0xf1C9acDc66974dFB6dEcB12aA385b9cD01190E38);
-    address waEthWETH_ADDR =
-        address(0x0bfc9d54Fc184518A81162F8fB99c2eACa081202);
+    address waEthWETH_ADDR = address(0x0bfc9d54Fc184518A81162F8fB99c2eACa081202);
 
     function setUp() public {
         uint256 forkBlock = 22625131;
@@ -93,7 +91,8 @@ contract BalancerV3ExecutorTest is Constants, TestUtils {
         uint256 amountOwed = 1 ether;
         bytes memory params =
             abi.encodePacked(amountOwed, WBTC_ADDR, address(0), address(0));
-        (TransferManager.TransferType transferType, address receiver) = balancerV3Exposed.getCallbackTransferData(
+        (TransferManager.TransferType transferType, address receiver) =
+        balancerV3Exposed.getCallbackTransferData(
             params, WBTC_ADDR, address(this)
         );
         assertEq(

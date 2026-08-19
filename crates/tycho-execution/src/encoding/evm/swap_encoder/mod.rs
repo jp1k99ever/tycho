@@ -9,6 +9,8 @@ mod ekubo;
 mod ekubo_v3;
 mod erc_4626;
 mod etherfi;
+mod everlong_cvamm;
+mod everlong_rebalancer;
 mod fermiswap;
 mod fluid_v1;
 mod hashflow;

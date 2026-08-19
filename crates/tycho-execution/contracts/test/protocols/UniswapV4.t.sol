@@ -13,6 +13,7 @@ import {IPoolManager} from "@uniswap/v4-core/src/interfaces/IPoolManager.sol";
 
 contract UniswapV4ExecutorExposed is UniswapV4Executor {
     using SafeERC20 for IERC20;
+
     constructor(IPoolManager _POOL_MANAGER, address _ANGSTROM_HOOK)
         UniswapV4Executor(_POOL_MANAGER, _ANGSTROM_HOOK)
     {}
@@ -31,12 +32,7 @@ contract UniswapV4ExecutorExposed is UniswapV4Executor {
         return _decodeData(data);
     }
 
-    fallback(
-        bytes calldata /*data*/
-    )
-        external
-        returns (bytes memory)
-    {
+    fallback(bytes calldata /*data*/ ) external returns (bytes memory) {
         // Extract tokenIn from the unlock callback data (msg.data[68:] = swapData).
         // swapExactInputSingle ABI layout: selector(4) | currency0(32) | currency1(32) | ...
         //   | zeroForOne(32) | ...  → tokenIn = zeroForOne ? currency0 : currency1
@@ -802,8 +798,9 @@ contract ExternalSettlerMock {
         for (uint256 i = 0; i < loans.length; i++) {
             Currency currency = Currency.wrap(loans[i].token);
             poolManager.sync(currency);
-            IERC20(loans[i].token)
-                .safeTransfer(address(poolManager), loans[i].amount);
+            IERC20(loans[i].token).safeTransfer(
+                address(poolManager), loans[i].amount
+            );
             // slither-disable-next-line unused-return
             poolManager.settle();
         }
@@ -821,9 +818,8 @@ contract ExternalSettlerNoUnlockTest is TychoRouterTestSetup {
 
     function setUp() public override {
         super.setUp();
-        settler = new ExternalSettlerMock(
-            IPoolManager(POOL_MANAGER), tychoRouterAddr
-        );
+        settler =
+            new ExternalSettlerMock(IPoolManager(POOL_MANAGER), tychoRouterAddr);
     }
 
     function testSettlementWithLoanSingleSwap() public {

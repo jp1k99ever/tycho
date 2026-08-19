@@ -102,7 +102,8 @@ contract UniswapV3ExecutorTest is Test, TestUtils, Constants {
             dataLength,
             protocolData
         );
-        (TransferManager.TransferType transferType, address receiver) = uniswapV3Exposed.getCallbackTransferData(
+        (TransferManager.TransferType transferType, address receiver) =
+        uniswapV3Exposed.getCallbackTransferData(
             callbackData, WETH_ADDR, address(this)
         );
 
@@ -298,9 +299,8 @@ contract TychoRouterForUniswapV3BscTest is TychoRouterTestSetup {
         vm.startPrank(ALICE);
         IERC20(BSC_WBNB).approve(tychoRouterAddr, type(uint256).max);
 
-        bytes memory callData = loadCallDataFromFile(
-            "test_single_encoding_strategy_uniswap_v3_bsc"
-        );
+        bytes memory callData =
+            loadCallDataFromFile("test_single_encoding_strategy_uniswap_v3_bsc");
         (bool success,) = tychoRouterAddr.call(callData);
 
         uint256 balanceAfter = IERC20(BSC_WETH).balanceOf(ALICE);

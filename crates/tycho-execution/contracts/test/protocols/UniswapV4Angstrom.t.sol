@@ -22,12 +22,7 @@ contract UniswapV4ExecutorExposed is UniswapV4Executor {
         return _selectAttestation(attestationData);
     }
 
-    fallback(
-        bytes calldata /*data*/
-    )
-        external
-        returns (bytes memory)
-    {
+    fallback(bytes calldata /*data*/ ) external returns (bytes memory) {
         bytes calldata stripped = msg.data[68:];
         bytes4 sel = bytes4(stripped[:4]);
         address tokenIn;

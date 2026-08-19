@@ -2,9 +2,8 @@
 pragma solidity ^0.8.26;
 
 import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
-import {
-    EnumerableSet
-} from "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
+import {EnumerableSet} from
+    "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 import {FeeRecipient, FeeInput} from "../lib/FeeStructs.sol";
 import {IFeeCalculator, CustomFees} from "@interfaces/IFeeCalculator.sol";
 
@@ -173,9 +172,9 @@ contract FeeCalculator is AccessControl, IFeeCalculator {
             // Calculate router's cut of the client fee
             if (routerFeeOnClientFeeBps > 0) {
                 // Both fees use the 100_000_000 scale, so denominator is 100_000_000^2
-                routerFeeOnClientFee =
-                    (clientFeeNumerator * routerFeeOnClientFeeBps)
-                        / MAX_BPS_SQUARED;
+                routerFeeOnClientFee = (
+                    clientFeeNumerator * routerFeeOnClientFeeBps
+                ) / MAX_BPS_SQUARED;
             }
 
             // Client gets their portion (after router's cut)

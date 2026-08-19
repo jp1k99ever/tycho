@@ -47,9 +47,7 @@ contract FluidV1Executor is IExecutor, ICallback {
         liquidity = liquidity_;
     }
 
-    function fundsExpectedAddress(
-        bytes calldata /* data */
-    )
+    function fundsExpectedAddress(bytes calldata /* data */ )
         external
         view
         returns (address receiver)

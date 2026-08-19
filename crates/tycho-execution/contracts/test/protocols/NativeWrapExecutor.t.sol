@@ -222,9 +222,8 @@ contract WrapTest is TychoRouterTestSetup {
 
         uint256 amountIn = 1 ether;
 
-        bytes memory callData = loadCallDataFromFile(
-            "test_sequential_encoding_strategy_wrap_added"
-        );
+        bytes memory callData =
+            loadCallDataFromFile("test_sequential_encoding_strategy_wrap_added");
 
         // Fund Bob with ETH
         vm.deal(BOB, amountIn);

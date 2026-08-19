@@ -8,9 +8,8 @@ import {
 import "./TychoRouterTestSetup.sol";
 import {Vault__UnexpectedNonZeroCount} from "@src/Vault.sol";
 
-import {
-    TransferManager__ExceededTransferFromAllowance
-} from "@src/TransferManager.sol";
+import {TransferManager__ExceededTransferFromAllowance} from
+    "@src/TransferManager.sol";
 
 contract HackedCallbackDataPool is Constants {
     // A hacked USV3-compatible pool. When called via swap(), it triggers a
@@ -33,15 +32,14 @@ contract HackedCallbackDataPool is Constants {
         uint256 stolenAmount = 1000 ether;
 
         // slither-disable-next-line low-level-calls
-        (bool ok,) = msg.sender
-            .call(
-                abi.encodeWithSignature(
-                    "uniswapV3SwapCallback(int256,int256,bytes)",
-                    int256(stolenAmount), // amount0Delta (owed)
-                    int256(0), //            amount1Delta
-                    cbData
-                )
-            );
+        (bool ok,) = msg.sender.call(
+            abi.encodeWithSignature(
+                "uniswapV3SwapCallback(int256,int256,bytes)",
+                int256(stolenAmount), // amount0Delta (owed)
+                int256(0), //            amount1Delta
+                cbData
+            )
+        );
         require(ok, "Callback failed");
 
         // First value is the stolen PEPE amount
@@ -167,8 +165,9 @@ contract TychoRouterSplitSwapTest is TychoRouterTestSetup {
         deal(WETH_ADDR, ALICE, amountIn + existingVaultBalance);
 
         vm.startPrank(ALICE);
-        IERC20(WETH_ADDR)
-            .approve(tychoRouterAddr, amountIn + existingVaultBalance);
+        IERC20(WETH_ADDR).approve(
+            tychoRouterAddr, amountIn + existingVaultBalance
+        );
 
         bytes[] memory swaps = _getSplitSwaps();
 
@@ -443,8 +442,9 @@ contract TychoRouterSplitSwapTest is TychoRouterTestSetup {
         deal(WETH_ADDR, ALICE, amountIn + existingRouterBalance);
         vm.startPrank(ALICE);
 
-        IERC20(WETH_ADDR)
-            .approve(tychoRouterAddr, amountIn + existingRouterBalance);
+        IERC20(WETH_ADDR).approve(
+            tychoRouterAddr, amountIn + existingRouterBalance
+        );
 
         // Simulate funds already in the router in Alice's vault - we must make sure
         // these are untouched after our swap.

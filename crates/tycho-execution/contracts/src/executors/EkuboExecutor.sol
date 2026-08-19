@@ -50,9 +50,7 @@ contract EkuboExecutor is IExecutor, ILocker, IPayer, ICallback {
         _mevResist = mevResist;
     }
 
-    function fundsExpectedAddress(
-        bytes calldata /* data */
-    )
+    function fundsExpectedAddress(bytes calldata /* data */ )
         external
         view
         returns (address receiver)
@@ -101,13 +99,7 @@ contract EkuboExecutor is IExecutor, ILocker, IPayer, ICallback {
         _locked(msg.data[36:]);
     }
 
-    function payCallback(
-        uint256,
-        address /*token*/
-    )
-        external
-        coreOnly
-    {
+    function payCallback(uint256, address /*token*/ ) external coreOnly {
         // The paying is done in the Dispatcher using getCallbackTransferData. Nothing to do here
     }
 
@@ -297,7 +289,7 @@ contract EkuboExecutor is IExecutor, ILocker, IPayer, ICallback {
                 // ETH transfers are handled in the Executor, so we need to set the
                 // transferType to TransferNativeInExecutor to update delta accounting.
                 transferType =
-                TransferManager.TransferType.TransferNativeInExecutor;
+                    TransferManager.TransferType.TransferNativeInExecutor;
             } else {
                 // Locked callback: no transfer needed for ERC20 tokens. This is
                 // done in the Pay callback.

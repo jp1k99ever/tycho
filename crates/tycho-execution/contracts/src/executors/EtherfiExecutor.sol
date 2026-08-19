@@ -2,9 +2,8 @@
 pragma solidity ^0.8.26;
 
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {
-    SafeERC20
-} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import {SafeERC20} from
+    "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {IExecutor} from "@interfaces/IExecutor.sol";
 import {TransferManager} from "../TransferManager.sol";
 import {ETH_ADDRESS} from "../../lib/NativeETH.sol";
@@ -86,12 +85,13 @@ contract EtherfiExecutor is IExecutor {
         direction = _decodeData(data);
 
         if (direction == EtherfiDirection.EethToEth) {
-            IEtherfiRedemptionManager(redemptionManagerAddress)
-                .redeemEEth(amountIn, receiver, ethAddress);
+            IEtherfiRedemptionManager(redemptionManagerAddress).redeemEEth(
+                amountIn, receiver, ethAddress
+            );
         } else if (direction == EtherfiDirection.EthToEeth) {
             // slither-disable-next-line arbitrary-send-eth,unused-return
-            IEtherfiLiquidityPool(liquidityPoolAddress)
-            .deposit{value: amountIn}();
+            IEtherfiLiquidityPool(liquidityPoolAddress).deposit{value: amountIn}(
+            );
         } else if (direction == EtherfiDirection.EethToWeeth) {
             // slither-disable-next-line unused-return
             IWeETH(weethAddress).wrap(amountIn);
@@ -144,9 +144,7 @@ contract EtherfiExecutor is IExecutor {
         }
     }
 
-    function fundsExpectedAddress(
-        bytes calldata /* data */
-    )
+    function fundsExpectedAddress(bytes calldata /* data */ )
         external
         view
         returns (address)

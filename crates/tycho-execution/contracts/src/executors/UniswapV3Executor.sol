@@ -6,9 +6,8 @@ import {
     SafeERC20,
     IERC20
 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import {
-    IUniswapV3Pool
-} from "@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol";
+import {IUniswapV3Pool} from
+    "@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol";
 import {ICallback} from "@interfaces/ICallback.sol";
 import {TransferManager} from "../TransferManager.sol";
 
@@ -23,9 +22,7 @@ contract UniswapV3Executor is IExecutor, ICallback {
 
     constructor() {}
 
-    function fundsExpectedAddress(
-        bytes calldata /* data */
-    )
+    function fundsExpectedAddress(bytes calldata /* data */ )
         external
         view
         returns (address receiver)
@@ -55,9 +52,7 @@ contract UniswapV3Executor is IExecutor, ICallback {
         );
     }
 
-    function handleCallback(
-        bytes calldata /* msgData */
-    )
+    function handleCallback(bytes calldata /* msgData */ )
         public
         pure
         returns (bytes memory)

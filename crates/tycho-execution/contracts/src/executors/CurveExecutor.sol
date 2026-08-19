@@ -57,9 +57,7 @@ contract CurveExecutor is IExecutor {
         stEthAddress = stEthAddress_;
     }
 
-    function fundsExpectedAddress(
-        bytes calldata /* data */
-    )
+    function fundsExpectedAddress(bytes calldata /* data */ )
         external
         view
         returns (address receiver)
@@ -100,10 +98,9 @@ contract CurveExecutor is IExecutor {
                     uint256(int256(i)), uint256(int256(j)), amountIn, 0, true
                 );
             } else {
-                CryptoPool(pool)
-                    .exchange(
-                        uint256(int256(i)), uint256(int256(j)), amountIn, 0
-                    );
+                CryptoPool(pool).exchange(
+                    uint256(int256(i)), uint256(int256(j)), amountIn, 0
+                );
             }
         }
     }

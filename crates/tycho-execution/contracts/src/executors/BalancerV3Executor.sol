@@ -25,9 +25,7 @@ contract BalancerV3Executor is IExecutor, ICallback {
 
     constructor() {}
 
-    function fundsExpectedAddress(
-        bytes calldata /* data */
-    )
+    function fundsExpectedAddress(bytes calldata /* data */ )
         external
         view
         returns (address receiver)
@@ -47,12 +45,7 @@ contract BalancerV3Executor is IExecutor, ICallback {
         _VAULT.unlock(abi.encodePacked(amountIn, data, receiver));
     }
 
-    function verifyCallback(
-        bytes calldata /*data*/
-    )
-        public
-        view
-    {
+    function verifyCallback(bytes calldata /*data*/ ) public view {
         if (msg.sender != address(_VAULT)) {
             revert BalancerV3Executor__SenderIsNotVault(msg.sender);
         }

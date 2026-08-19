@@ -18,9 +18,7 @@ contract ERC4626Executor is IExecutor {
 
     constructor() {}
 
-    function fundsExpectedAddress(
-        bytes calldata /* data */
-    )
+    function fundsExpectedAddress(bytes calldata /* data */ )
         external
         view
         returns (address receiver)

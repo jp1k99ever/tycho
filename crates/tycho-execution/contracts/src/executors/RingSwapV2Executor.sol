@@ -2,9 +2,8 @@
 pragma solidity ^0.8.26;
 
 import {IExecutor} from "@interfaces/IExecutor.sol";
-import {
-    IUniswapV2Pair
-} from "@uniswap-v2/contracts/interfaces/IUniswapV2Pair.sol";
+import {IUniswapV2Pair} from
+    "@uniswap-v2/contracts/interfaces/IUniswapV2Pair.sol";
 import {TransferManager} from "../TransferManager.sol";
 
 interface IFewWrappedToken {
@@ -51,9 +50,7 @@ contract RingSwapV2Executor is IExecutor {
         ringSwapFactory = ringSwapFactory_;
     }
 
-    function fundsExpectedAddress(
-        bytes calldata /* data */
-    )
+    function fundsExpectedAddress(bytes calldata /* data */ )
         external
         view
         returns (address receiver)
@@ -80,9 +77,8 @@ contract RingSwapV2Executor is IExecutor {
             IFewWrappedToken(fwTokenIn).wrapTo(amountIn, target);
 
         bool zeroForOne = fwTokenIn < fwTokenOut;
-        uint256 fwAmountOut = _swap(
-            IUniswapV2Pair(target), fwAmountIn, zeroForOne, address(this)
-        );
+        uint256 fwAmountOut =
+            _swap(IUniswapV2Pair(target), fwAmountIn, zeroForOne, address(this));
 
         // slither-disable-next-line unused-return
         IFewWrappedToken(fwTokenOut).unwrapTo(fwAmountOut, receiver);
@@ -135,8 +131,9 @@ contract RingSwapV2Executor is IExecutor {
     {
         if (
             pair == address(0)
-                || IRingSwapV2Factory(ringSwapFactory)
-                        .getPair(fwTokenIn, fwTokenOut) != pair
+                || IRingSwapV2Factory(ringSwapFactory).getPair(
+                    fwTokenIn, fwTokenOut
+                ) != pair
         ) {
             revert RingSwapV2Executor__InvalidPair(pair, fwTokenIn, fwTokenOut);
         }

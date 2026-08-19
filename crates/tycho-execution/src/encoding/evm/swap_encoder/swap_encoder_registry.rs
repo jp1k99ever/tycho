@@ -10,7 +10,9 @@ use crate::encoding::{
             aerodrome_v1::AerodromeV1SwapEncoder, balancer_v2::BalancerV2SwapEncoder,
             balancer_v3::BalancerV3SwapEncoder, bebop::BebopSwapEncoder, bopamm::BopAMMSwapEncoder,
             curve::CurveSwapEncoder, ekubo::EkuboSwapEncoder, ekubo_v3::EkuboV3SwapEncoder,
-            erc_4626::ERC4626SwapEncoder, etherfi::EtherfiSwapEncoder, fermiswap::FermiSwapEncoder,
+            erc_4626::ERC4626SwapEncoder, etherfi::EtherfiSwapEncoder,
+            everlong_cvamm::EverlongCvammSwapEncoder,
+            everlong_rebalancer::EverlongRebalancerSwapEncoder, fermiswap::FermiSwapEncoder,
             fluid_v1::FluidV1SwapEncoder, hashflow::HashflowSwapEncoder,
             liquidity_party::LiquidityPartySwapEncoder, liquorice::LiquoriceSwapEncoder,
             lunarbase::LunarBaseSwapEncoder, maverick_v2::MaverickV2SwapEncoder,
@@ -52,15 +54,20 @@ impl SwapEncoderRegistry {
         } else {
             DEFAULT_EXECUTORS_JSON.to_string()
         };
-        let config: HashMap<Chain, HashMap<String, String>> = serde_json::from_str(&config_str)?;
+        // Keyed by chain NAME, not by `Chain`: a self-hosted chain is a `Chain::Custom`,
+        // whose name only resolves through the chain-config registry, so deserializing the
+        // key as a `Chain` fails the whole file — every chain in it, not just that one.
+        // `Display` writes the same name the config uses for both kinds.
+        let config: HashMap<String, HashMap<String, String>> = serde_json::from_str(&config_str)?;
+        let chain_name = self.chain.to_string();
         let executors = config
-            .get(&self.chain)
+            .get(&chain_name)
             .ok_or(EncodingError::FatalError("No executors found for chain".to_string()))?;
 
-        let protocol_specific_config: HashMap<Chain, HashMap<String, HashMap<String, String>>> =
+        let protocol_specific_config: HashMap<String, HashMap<String, HashMap<String, String>>> =
             serde_json::from_str(PROTOCOL_SPECIFIC_CONFIG)?;
         let protocol_specific_config = protocol_specific_config
-            .get(&self.chain)
+            .get(&chain_name)
             .ok_or(EncodingError::FatalError(
                 "No protocol specific config found for chain".to_string(),
             ))?;
@@ -171,6 +178,14 @@ impl SwapEncoderRegistry {
             "lunarbase" => {
                 Ok(Box::new(LunarBaseSwapEncoder::new(executor_address, self.chain, config)?))
             }
+            "everlong_cvamm" => {
+                Ok(Box::new(EverlongCvammSwapEncoder::new(executor_address, self.chain, config)?))
+            }
+            "everlong_rebalancer" => Ok(Box::new(EverlongRebalancerSwapEncoder::new(
+                executor_address,
+                self.chain,
+                config,
+            )?)),
             "velodrome_slipstreams" => {
                 Ok(Box::new(SlipstreamsSwapEncoder::new(executor_address, self.chain, config)?))
             }
@@ -208,6 +223,42 @@ impl SwapEncoderRegistry {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// A chain listed in the executors config but absent from the protocol-specific one
+    /// fails to build at all, so the two files have to agree. Berachain is self-hosted and
+    /// carries no protocol-specific entries, which is an empty section, not a missing one.
+    #[test]
+    fn test_every_configured_chain_has_a_protocol_specific_section() {
+        let executors: HashMap<String, HashMap<String, String>> =
+            serde_json::from_str(DEFAULT_EXECUTORS_JSON).expect("executors config parses");
+        let protocol_specific: HashMap<String, HashMap<String, HashMap<String, String>>> =
+            serde_json::from_str(PROTOCOL_SPECIFIC_CONFIG)
+                .expect("protocol specific config parses");
+        for chain in executors.keys() {
+            assert!(
+                protocol_specific.contains_key(chain),
+                "chain {chain} has executors but no protocol specific section"
+            );
+        }
+    }
+
+    /// Berachain is a `Chain::Custom`, so it cannot be built here without initialising the
+    /// process-wide chain registry. What is checkable without it is that its executors
+    /// resolve to encoders — the registry only ever looks them up by protocol name.
+    #[test]
+    fn test_self_hosted_chain_executors_have_encoders() {
+        let executors: HashMap<String, HashMap<String, String>> =
+            serde_json::from_str(DEFAULT_EXECUTORS_JSON).expect("executors config parses");
+        let berachain = executors
+            .get("berachain")
+            .expect("berachain is configured");
+        let registry = SwapEncoderRegistry::new(Chain::Ethereum);
+        for (protocol, address) in berachain {
+            registry
+                .create_encoder(protocol, Bytes::from_str(address).unwrap(), None)
+                .unwrap_or_else(|e| panic!("no encoder for berachain protocol {protocol}: {e}"));
+        }
+    }
 
     #[test]
     fn test_default_encoders_build_for_every_configured_chain() {

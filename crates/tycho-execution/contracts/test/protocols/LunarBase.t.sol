@@ -201,8 +201,9 @@ contract LunarBaseExecutorTest is Constants, TestUtils {
         uint256 amountIn
     ) internal returns (uint256 amountOut) {
         vm.prank(caller);
-        amountOut = ILunarBaseQuoter(LUNARBASE_POOL)
-            .quoteExactIn(tokenIn, tokenOut, amountIn);
+        amountOut = ILunarBaseQuoter(LUNARBASE_POOL).quoteExactIn(
+            tokenIn, tokenOut, amountIn
+        );
     }
 
     function _whitelistSwapCaller(address caller) internal {
@@ -300,8 +301,9 @@ contract TychoRouterForLunarBaseTest is TychoRouterTestSetup {
         uint256 amountIn
     ) internal returns (uint256 amountOut) {
         vm.prank(caller);
-        amountOut = ILunarBaseQuoter(LUNARBASE_POOL)
-            .quoteExactIn(tokenIn, tokenOut, amountIn);
+        amountOut = ILunarBaseQuoter(LUNARBASE_POOL).quoteExactIn(
+            tokenIn, tokenOut, amountIn
+        );
     }
 
     function _whitelistSwapCaller(address caller) internal {

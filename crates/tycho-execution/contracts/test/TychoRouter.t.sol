@@ -5,9 +5,7 @@ import {
     TychoRouter__NoPendingFeeCalculator
 } from "@src/TychoRouterV3.sol";
 import {FeeCalculator} from "@src/FeeCalculator.sol";
-import {
-    IAccessControl
-} from "@openzeppelin/contracts/access/IAccessControl.sol";
+import {IAccessControl} from "@openzeppelin/contracts/access/IAccessControl.sol";
 import "@src/TransferManager.sol";
 import "./TychoRouterTestSetup.sol";
 

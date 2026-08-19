@@ -10,9 +10,8 @@ import {EkuboV3Executor} from "../src/executors/EkuboV3Executor.sol";
 import {EtherfiExecutor} from "../src/executors/EtherfiExecutor.sol";
 import {FermiSwapExecutor} from "../src/executors/FermiSwapExecutor.sol";
 import {BopAMMExecutor} from "../src/executors/BopAMMExecutor.sol";
-import {
-    LiquidityPartyExecutor
-} from "../src/executors/LiquidityPartyExecutor.sol";
+import {LiquidityPartyExecutor} from
+    "../src/executors/LiquidityPartyExecutor.sol";
 import {HashflowExecutor} from "../src/executors/HashflowExecutor.sol";
 import {MaverickV2Executor} from "../src/executors/MaverickV2Executor.sol";
 import {UniswapV2Executor} from "../src/executors/UniswapV2Executor.sol";

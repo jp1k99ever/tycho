@@ -3,9 +3,8 @@ pragma solidity ^0.8.26;
 
 import {IExecutor} from "@interfaces/IExecutor.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {
-    SafeERC20
-} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import {SafeERC20} from
+    "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {Address} from "@openzeppelin/contracts/utils/Address.sol";
 import {TransferManager} from "../TransferManager.sol";
 import {ETH_ADDRESS} from "../../lib/NativeETH.sol";
@@ -23,9 +22,7 @@ contract RocketpoolExecutor is IExecutor {
         rocketDepositPool = IRocketDepositPool(_rocketDepositPool);
     }
 
-    function fundsExpectedAddress(
-        bytes calldata /* data */
-    )
+    function fundsExpectedAddress(bytes calldata /* data */ )
         external
         view
         returns (address receiver)

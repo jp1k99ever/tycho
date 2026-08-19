@@ -1,28 +1,23 @@
 // SPDX-License-Identifier: BUSL-1.1
 pragma solidity ^0.8.26;
 
-import {
-    LibPrefixLengthEncodedByteArray
-} from "../lib/bytes/LibPrefixLengthEncodedByteArray.sol";
+import {LibPrefixLengthEncodedByteArray} from
+    "../lib/bytes/LibPrefixLengthEncodedByteArray.sol";
 
 import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {
-    SafeERC20
-} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
-import {
-    ReentrancyGuard
-} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import {SafeERC20} from
+    "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import {ReentrancyGuard} from
+    "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import {Address} from "@openzeppelin/contracts/utils/Address.sol";
-import {
-    IAllowanceTransfer
-} from "@permit2/src/interfaces/IAllowanceTransfer.sol";
+import {IAllowanceTransfer} from
+    "@permit2/src/interfaces/IAllowanceTransfer.sol";
 import {ERC6909} from "@openzeppelin/contracts/token/ERC6909/ERC6909.sol";
 import {EIP712} from "@openzeppelin/contracts/utils/cryptography/EIP712.sol";
 import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
-import {
-    SignatureChecker
-} from "@openzeppelin/contracts/utils/cryptography/SignatureChecker.sol";
+import {SignatureChecker} from
+    "@openzeppelin/contracts/utils/cryptography/SignatureChecker.sol";
 import {Dispatcher} from "./Dispatcher.sol";
 import {LibSwap} from "../lib/LibSwap.sol";
 import {TransferManager} from "./TransferManager.sol";
@@ -895,9 +890,9 @@ contract TychoRouterV3 is AccessControl, Dispatcher, EIP712 {
         // Lowest acceptable output: at most MAX_SLIPPAGE_TOLERANCE_BPS below
         // expected. The division rounds down, which can make the floor 0 for
         // tiny expected amounts — hence the explicit zero check.
-        uint256 minAmountOutFloor =
-            (expectedAmountOut * (BPS_DENOMINATOR - MAX_SLIPPAGE_TOLERANCE_BPS))
-                / BPS_DENOMINATOR;
+        uint256 minAmountOutFloor = (
+            expectedAmountOut * (BPS_DENOMINATOR - MAX_SLIPPAGE_TOLERANCE_BPS)
+        ) / BPS_DENOMINATOR;
         if (
             minAmountOut == 0 || minAmountOut < minAmountOutFloor
                 || minAmountOut > expectedAmountOut
@@ -940,9 +935,8 @@ contract TychoRouterV3 is AccessControl, Dispatcher, EIP712 {
         uint256 maxClientContribution,
         address receiver
     ) internal returns (uint256 amountOutAfterFees) {
-        amountOutAfterFees = intercepting
-            ? _takeFees(feeInput)
-            : feeInput.actualAmountOut;
+        amountOutAfterFees =
+            intercepting ? _takeFees(feeInput) : feeInput.actualAmountOut;
 
         amountOutAfterFees = _maybeAddClientContribution(
             amountOutAfterFees,
@@ -1233,7 +1227,10 @@ contract TychoRouterV3 is AccessControl, Dispatcher, EIP712 {
     /**
      * @notice Activates the pending fee calculator once the timelock has expired.
      */
-    function activateFeeCalculator() external onlyRole(ROUTER_FEE_SETTER_ROLE) {
+    function activateFeeCalculator()
+        external
+        onlyRole(ROUTER_FEE_SETTER_ROLE)
+    {
         uint48 activationTs = _feeCalculatorActivationTimestamp;
         // slither-disable-next-line incorrect-equality
         if (activationTs == 0) {
@@ -1337,8 +1334,7 @@ contract TychoRouterV3 is AccessControl, Dispatcher, EIP712 {
         address client
     ) internal returns (uint256 amount) {
         if (amountOut < minAmountOut) {
-            uint256 requiredContribution =
-                minAmountOut - amountOut;
+            uint256 requiredContribution = minAmountOut - amountOut;
             if (requiredContribution > maxClientContribution) {
                 revert TychoRouter__NegativeSlippage(amountOut, minAmountOut);
             }
@@ -1360,8 +1356,9 @@ contract TychoRouterV3 is AccessControl, Dispatcher, EIP712 {
                     // Measure user balance before and after required contribution to
                     // account for fee tokens
                     uint256 balanceBefore = IERC20(tokenOut).balanceOf(receiver);
-                    IERC20(tokenOut)
-                        .safeTransfer(receiver, requiredContribution);
+                    IERC20(tokenOut).safeTransfer(
+                        receiver, requiredContribution
+                    );
                     uint256 actualContribution =
                         IERC20(tokenOut).balanceOf(receiver) - balanceBefore;
                     return amountOut + actualContribution;
@@ -1446,9 +1443,11 @@ contract TychoRouterV3 is AccessControl, Dispatcher, EIP712 {
             return;
         }
         // A contract receiver validates the digest itself
-        if (!SignatureChecker.isValidERC1271SignatureNowCalldata(
+        if (
+            !SignatureChecker.isValidERC1271SignatureNowCalldata(
                 p.clientFeeReceiver, digest, p.clientSignature
-            )) {
+            )
+        ) {
             revert TychoRouter__InvalidClientSignature();
         }
     }

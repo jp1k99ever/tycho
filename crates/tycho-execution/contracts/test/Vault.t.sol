@@ -25,7 +25,9 @@ contract VaultExposed is Vault {
         _updateDeltaAccounting(token, change);
     }
 
-    function creditVault(address user, address token, uint256 amount) external {
+    function creditVault(address user, address token, uint256 amount)
+        external
+    {
         _creditVault(user, token, amount);
     }
 
